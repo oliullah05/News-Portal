@@ -110,10 +110,12 @@ const {_id,image_url,title,details,author,total_view}=singleNewsData;
          </div>
 
  
-     
-     <div onclick="fetchSingleDetailsData('${_id}')">
+         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <div onclick="fetchModalSingleDetailsData('${_id}')">
      <i class="fa fa-location-arrow" style="font-size:36px">see details</i>
  </div>
+ </button>
+
 
  </div>
 
@@ -144,14 +146,29 @@ getNewsDataSection.appendChild(createSection)
 // ...............
 // details data load
 
-const fetchSingleDetailsData =(id)=>{
+const fetchModalSingleDetailsData =(id)=>{
     console.log(id);
     fetch(`https://openapi.programming-hero.com/api/news/${id}`)
     .then(res=>res.json())
     .then(data=>{
-        console.log(data.data[0]);
+        showModalSingleDetailsData(data.data[0]);
     })
 }
 
-// fetchSingleDetailsData()
+const showModalSingleDetailsData =(modalData)=>{
+    console.log(modalData);
+    const getModalTittle = document.getElementById("exampleModalLabel")
+    getModalTittle.innerText=`${modalData?.title}`
+    // console.log(modalData?.title);
+    const getModalbody = document.getElementById("modal-body")
+getModalbody.innerHTML=`
+<h1>${modalData?.details}</h1>
+`
+
+
+
+
+
+
+}
 
