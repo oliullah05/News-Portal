@@ -4,7 +4,7 @@
 const  fetchNewsCategory = () => {
     fetch(`https://openapi.programming-hero.com/api/news/categories`)
     .then(res=>res.json())
-    .then(data=>showCategory(data.data.news_category))
+    .then(data=>showCategory(data?.data?.news_category))
 }
 fetchNewsCategory()
 
@@ -27,4 +27,26 @@ getCagegory.appendChild(createElement)
 
 
    
+}
+
+// ......................................
+
+const fetchNewsData =()=>{
+    fetch("https://openapi.programming-hero.com/api/news/category/01")
+    .then(res=>res.json())
+    .then(newsData=>showNewsData(newsData.data))
+}
+fetchNewsData()
+
+
+
+const showNewsData = (newsData)=>{
+    const getNewsDataSection = document.getElementById("news")
+    console.log(newsData[0]);
+
+// newsData.map(SingleNewsData=>{
+//    getNewsDataSection.innerHTML=`
+//    `
+// })
+
 }
