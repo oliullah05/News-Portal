@@ -43,13 +43,13 @@ const fetchNewsData =(id)=>{
     .then(res=>res.json())
     .then(newsData=>showNewsData(newsData.data))
 }
-
+fetchNewsData("08")
 
 
 
 const showNewsData = (newsData)=>{
 
-
+// console.log(newsData.length);
 
 
     const getNewsDataSection = document.getElementById("news")
@@ -109,11 +109,11 @@ const {_id,image_url,title,details,author,total_view}=singleNewsData;
            <span class="fa fa-star"></span>
          </div>
 
-         <div>
-           <i class="fa fa-location-arrow" style="font-size:36px"></i>
-         </div>
-       </div>
-
+ 
+     
+     <div onclick="fetchSingleDetailsData('${_id}')">
+     <i class="fa fa-location-arrow" style="font-size:36px">see details</i>
+ </div>
 
  </div>
 
@@ -139,3 +139,19 @@ getNewsDataSection.appendChild(createSection)
 
 
 }
+
+
+// ...............
+// details data load
+
+const fetchSingleDetailsData =(id)=>{
+    console.log(id);
+    fetch(`https://openapi.programming-hero.com/api/news/${id}`)
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data.data[0]);
+    })
+}
+
+// fetchSingleDetailsData()
+
