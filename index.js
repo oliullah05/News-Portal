@@ -1,72 +1,88 @@
 
 
 
-const  fetchNewsCategory = () => {
+const fetchNewsCategory = () => {
     fetch(`https://openapi.programming-hero.com/api/news/categories`)
-    .then(res=>res.json())
-    .then(data=>showCategory(data?.data?.news_category))
+        .then(res => res.json())
+        .then(data => showCategory(data?.data?.news_category))
 }
 fetchNewsCategory()
 
 
 
-const showCategory =(CategoryName)=>{
-    // console.log(data.category_name);
+const showCategory = (CategoryName) => {
+
     const getCagegory = document.getElementById("category");
-   
-
-    CategoryName.map(singleCategory=> {
-const createElement = document.createElement("p");
-createElement.addEventListener("click",function(){
-    // console.log(singleCategory.category_id,"clicked");
-    document.getElementById("news").innerHTML=""
-    fetchNewsData(singleCategory?.category_id)
-
-})
-createElement.className="text-black";
-// createElement.className="flex";
-// createElement.className="align-items-center";
-createElement.innerHTML=`${singleCategory?.category_name}`
-getCagegory.appendChild(createElement)
-
-})
 
 
-   
+    CategoryName.map(singleCategory => {
+        const createElement = document.createElement("p");
+        createElement.addEventListener("click", function () {
+
+            document.getElementById("news").innerHTML = ""
+            fetchNewsData(singleCategory?.category_id)
+
+        })
+        createElement.className = "text-black";
+        // createElement.className="flex";
+        // createElement.className="align-items-center";
+        createElement.innerHTML = `${singleCategory?.category_name}`
+        getCagegory.appendChild(createElement)
+
+    })
+
+
+
 }
 
 // ......................................
 
-const fetchNewsData =(id)=>{
-    console.log(id);
+const fetchNewsData = (id) => {
+
     fetch(`https://openapi.programming-hero.com/api/news/category/${id}`)
-    .then(res=>res.json())
-    .then(newsData=>showNewsData(newsData.data))
+        .then(res => res.json())
+        .then(newsData => showNewsData(newsData.data))
 }
 fetchNewsData("08")
 
 
 
-const showNewsData = (newsData)=>{
+const showNewsData = (newsData) => {
+console.log(newsData);
+  
 
-// console.log(newsData.length);
+const getSearchBox = document.getElementById("search-box");
+getSearchBox.placeholder=`${newsData.length} items found for this category`;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     const getNewsDataSection = document.getElementById("news")
 
-newsData.map(singleNewsData=>{
+    newsData.map(singleNewsData => {
 
-// console.log(singleNewsData);
-const {_id,image_url,title,details,author,total_view}=singleNewsData;
-// console.log(author);
+        const { _id, image_url, title, details, author, total_view } = singleNewsData;
 
 
 
 
-    const createSection = document.createElement("section")
-    createSection.className=" d-flex my-5 gap-5";
-    // console.log(singleNewsData);
-   createSection.innerHTML=`
+
+
+
+        const createSection = document.createElement("section")
+        createSection.className = " d-flex my-5 gap-5";
+
+        createSection.innerHTML = `
    <div>
    <img style="width: 340px;height: 300px;" src="${image_url}" alt="">
  </div>
@@ -129,15 +145,15 @@ const {_id,image_url,title,details,author,total_view}=singleNewsData;
 
 
 
-getNewsDataSection.appendChild(createSection)
+        getNewsDataSection.appendChild(createSection)
 
-})
-
-
+    })
 
 
 
-   
+
+
+
 
 
 }
@@ -146,22 +162,22 @@ getNewsDataSection.appendChild(createSection)
 // ...............
 // details data load
 
-const fetchModalSingleDetailsData =(id)=>{
-    console.log(id);
+const fetchModalSingleDetailsData = (id) => {
+
     fetch(`https://openapi.programming-hero.com/api/news/${id}`)
-    .then(res=>res.json())
-    .then(data=>{
-        showModalSingleDetailsData(data.data[0]);
-    })
+        .then(res => res.json())
+        .then(data => {
+            showModalSingleDetailsData(data.data[0]);
+        })
 }
 
-const showModalSingleDetailsData =(modalData)=>{
-    console.log(modalData);
+const showModalSingleDetailsData = (modalData) => {
+
     const getModalTittle = document.getElementById("exampleModalLabel")
-    getModalTittle.innerText=`${modalData?.title}`
-    // console.log(modalData?.title);
+    getModalTittle.innerText = `${modalData?.title}`
+
     const getModalbody = document.getElementById("modal-body")
-getModalbody.innerHTML=`
+    getModalbody.innerHTML = `
 <h1>${modalData?.details}</h1>
 `
 
