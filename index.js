@@ -17,6 +17,12 @@ const showCategory =(CategoryName)=>{
 
     CategoryName.map(singleCategory=> {
 const createElement = document.createElement("p");
+createElement.addEventListener("click",function(){
+    // console.log(singleCategory.category_id,"clicked");
+    document.getElementById("news").innerHTML=""
+    fetchNewsData(singleCategory?.category_id)
+
+})
 createElement.className="text-black";
 // createElement.className="flex";
 // createElement.className="align-items-center";
@@ -31,22 +37,105 @@ getCagegory.appendChild(createElement)
 
 // ......................................
 
-const fetchNewsData =()=>{
-    fetch("https://openapi.programming-hero.com/api/news/category/01")
+const fetchNewsData =(id)=>{
+    console.log(id);
+    fetch(`https://openapi.programming-hero.com/api/news/category/${id}`)
     .then(res=>res.json())
     .then(newsData=>showNewsData(newsData.data))
 }
-fetchNewsData()
+
 
 
 
 const showNewsData = (newsData)=>{
-    const getNewsDataSection = document.getElementById("news")
-    console.log(newsData[0]);
 
-// newsData.map(SingleNewsData=>{
-//    getNewsDataSection.innerHTML=`
-//    `
-// })
+
+
+
+    const getNewsDataSection = document.getElementById("news")
+
+newsData.map(singleNewsData=>{
+
+// console.log(singleNewsData);
+const {_id,image_url,title,details,author,total_view}=singleNewsData;
+// console.log(author);
+
+
+
+
+    const createSection = document.createElement("section")
+    createSection.className=" d-flex my-5 gap-5";
+    // console.log(singleNewsData);
+   createSection.innerHTML=`
+   <div>
+   <img style="width: 340px;height: 300px;" src="${image_url}" alt="">
+ </div>
+
+
+
+
+
+ <div class="d-flex flex-column justify-content-around">
+   <div>
+     <h4 class="fw-bold">${title}</h4>
+     <p>${details}</p>
+
+     </div>
+     
+
+
+       <div class="d-flex justify-content-between align-items-center">
+         <div class=" d-flex gap-3 align-items-center">
+           <img class="img-fluid" style="width: 2.5rem;
+                      height: 2.5rem;" src="${author?.img}                        " alt="">
+           <div>
+             <p class="mb-0">${author?.name}</p>
+             <p class="mb-0">${author?.published_date}</p>
+           </div>
+
+         </div>
+
+         <div>
+           <img style="width: 2.5rem;
+                                      height: 2.5rem;" src="./assets/view-icon.png" alt="" srcset="">
+           <span>${total_view}</span>
+         </div>
+
+         <div class="">
+           <span class="fa fa-star checked"></span>
+           <span class="fa fa-star checked"></span>
+           <span class="fa fa-star checked"></span>
+           <span class="fa fa-star"></span>
+           <span class="fa fa-star"></span>
+         </div>
+
+         <div>
+           <i class="fa fa-location-arrow" style="font-size:36px"></i>
+         </div>
+       </div>
+
+
+ </div>
+
+   
+   
+   
+   
+   `
+
+
+
+
+
+getNewsDataSection.appendChild(createSection)
+
+})
+
+
+
+
+
+   
+
 
 }
