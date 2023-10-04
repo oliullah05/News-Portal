@@ -1,7 +1,8 @@
-
+let saveParameter = "08";
 
 
 const fetchNewsCategory = () => {
+
     fetch(`https://openapi.programming-hero.com/api/news/categories`)
         .then(res => res.json())
         .then(data => showCategory(data?.data?.news_category))
@@ -11,7 +12,7 @@ fetchNewsCategory()
 
 
 const showCategory = (CategoryName) => {
-
+  
     const getCagegory = document.getElementById("category");
 
 
@@ -20,6 +21,8 @@ const showCategory = (CategoryName) => {
         createElement.addEventListener("click", function () {
 
             document.getElementById("news").innerHTML = ""
+            saveParameter=singleCategory?.category_id;
+          
             fetchNewsData(singleCategory?.category_id)
 
         })
@@ -37,19 +40,52 @@ const showCategory = (CategoryName) => {
 
 // ......................................
 
-const fetchNewsData = (id) => {
+
+
+
+
+
+
+
+const fetchNewsData = (id,isclicked) => {
+console.log(isclicked);
 
     fetch(`https://openapi.programming-hero.com/api/news/category/${id}`)
         .then(res => res.json())
-        .then(newsData => showNewsData(newsData.data))
+        .then(newsData =>{
+
+          showNewsData(newsData.data,isclicked)
+        } )
 }
-fetchNewsData("08")
+
+fetchNewsData("08",false)
 
 
 
-const showNewsData = (newsData) => {
-console.log(newsData);
-  
+
+
+
+
+document.getElementById("show-more-btn").addEventListener("click",function(){
+
+  fetchNewsData(saveParameter,true)
+document.getElementById("show-more-btn").className ="d-none"
+
+
+})
+;
+
+
+
+
+
+const showNewsData = (newsData,isclicked) => {
+
+
+
+const show2Items = newsData.slice(0, 2);
+
+ 
 
 const getSearchBox = document.getElementById("search-box");
 getSearchBox.placeholder=`${newsData.length} items found for this category`;
@@ -63,18 +99,15 @@ getSearchBox.placeholder=`${newsData.length} items found for this category`;
 
 
 
-
-
-
-
     const getNewsDataSection = document.getElementById("news")
 
-    newsData.map(singleNewsData => {
+
+const showHowMuch = isclicked?newsData:show2Items;
+
+
+showHowMuch.map(singleNewsData => {
 
         const { _id, image_url, title, details, author, total_view } = singleNewsData;
-
-
-
 
 
 
@@ -84,7 +117,7 @@ getSearchBox.placeholder=`${newsData.length} items found for this category`;
 
         createSection.innerHTML = `
    <div>
-   <img style="width: 340px;height: 300px;" src="${image_url}" alt="">
+   <img loading="lazy" style="width: 340px;height: 300px;" src="${image_url}" alt="">
  </div>
 
 
@@ -105,7 +138,7 @@ getSearchBox.placeholder=`${newsData.length} items found for this category`;
            <img class="img-fluid" style="width: 2.5rem;
                       height: 2.5rem;" src="${author?.img}                        " alt="">
            <div>
-             <p class="mb-0">${author?.name}</p>
+             <p class="mb-0">${author?.name?author?.name:""}</p>
              <p class="mb-0">${author?.published_date}</p>
            </div>
 
@@ -114,7 +147,7 @@ getSearchBox.placeholder=`${newsData.length} items found for this category`;
          <div>
            <img style="width: 2.5rem;
                                       height: 2.5rem;" src="./assets/view-icon.png" alt="" srcset="">
-           <span>${total_view}</span>
+           <span>${total_view?total_view:""}</span>
          </div>
 
          <div class="">
@@ -136,24 +169,11 @@ getSearchBox.placeholder=`${newsData.length} items found for this category`;
  </div>
 
    
-   
-   
-   
    `
-
-
-
-
 
         getNewsDataSection.appendChild(createSection)
 
     })
-
-
-
-
-
-
 
 
 }
@@ -163,6 +183,8 @@ getSearchBox.placeholder=`${newsData.length} items found for this category`;
 // details data load
 
 const fetchModalSingleDetailsData = (id) => {
+
+
 
     fetch(`https://openapi.programming-hero.com/api/news/${id}`)
         .then(res => res.json())
@@ -181,10 +203,7 @@ const showModalSingleDetailsData = (modalData) => {
 <h1>${modalData?.details}</h1>
 `
 
-
-
-
-
-
 }
+
+
 
