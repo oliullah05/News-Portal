@@ -19,6 +19,7 @@ const showCategory = (CategoryName) => {
     CategoryName.map(singleCategory => {
         const createElement = document.createElement("p");
         createElement.addEventListener("click", function () {
+          document.getElementById("show-more-btn").classList.remove("d-none");
 
             document.getElementById("news").innerHTML = ""
             saveParameter=singleCategory?.category_id;
